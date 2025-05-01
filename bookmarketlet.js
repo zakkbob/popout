@@ -3,7 +3,6 @@ var physicsObjects = [];
 const FPS = 60;
 const DELTA_MS = Math.floor(1000 / FPS);
 const GRAVITY = 1000;
-const SCREEN_HEIGHT = visualViewport.height
 
 const SHOW_BOUNDING_BOXES = false;
 
@@ -103,8 +102,8 @@ function updateStylePos(el) {
 function applyVerlet(el) {
     if (el.ignore) return;
     let tempPos = { x: el.pos.x, y: el.pos.y }
-    el.pos.x = el.pos.x * 2 - el.prevPos.x + 0 * DELTA_MS / 1000 * DELTA_MS / 1000
-    el.pos.y = Math.max(Math.min(el.pos.y * 2 - el.prevPos.y + GRAVITY * DELTA_MS / 1000 * DELTA_MS / 1000, SCREEN_HEIGHT - el.rect.height), 0)
+    el.pos.x = Math.max(Math.min(el.pos.x * 2 - el.prevPos.x + 0 * DELTA_MS / 1000 * DELTA_MS / 1000, visualViewport.width - el.rect.width), 0)
+    el.pos.y = Math.max(Math.min(el.pos.y * 2 - el.prevPos.y + GRAVITY * DELTA_MS / 1000 * DELTA_MS / 1000, visualViewport.height - el.rect.height), 0)
     el.prevPos = tempPos
 }
 
