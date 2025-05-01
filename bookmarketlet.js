@@ -1,27 +1,40 @@
+var physicsObjects = [];
+
+const FPS = 60;
+const DELTA_MS = Math.floor(1000/FPS);
+const GRAVITY = 1000;
+const SCREEN_HEIGHT = visualViewport.height
+
 document.querySelectorAll('button, div, a, input, select, textarea, img, svg, [tabindex]:not([tabindex="-1"])')
     .forEach(el => {
         el.removeAttribute("href");
         if (isVisible(el)) {
             el.addEventListener('click', (e) => {
                 e.stopImmediatePropagation();
-                let el_copy = document.createElement("div");
+                let copy = document.createElement("div");
                 let rect = el.getBoundingClientRect();
 
-                el_copy.top = rect.top;
-                el_copy.mass = rect.width * rect.height;
-                el_copy.speed = -5 + Math.min(el_copy.mass/10000,4);
+                copy.top = rect.top;
+                copy.pos = { x: rect.left, y:  rect.top}
+                copy.prevPos = { x: rect.left, y:  rect.top + 5}
+                copy.rect = { width: rect.width, height: rect.height}
 
-                el_copy.style.position = "absolute";
-                el_copy.style.width = el.offsetWidth + "px";
-                el_copy.style.height = el.offsetHeight + "px";
-                el_copy.style.top = rect.top + "px";
-                el_copy.style.left = rect.left + "px";
-                el_copy.style.zIndex = 100;
-                el_copy.innerHTML = el.outerHTML;
-                document.body.appendChild(el_copy);
+                copy.style.position = "fixed";
+                copy.style.width = copy.rect.width + "px";
+                copy.style.height = copy.rect.height + "px";
+                copy.style.borderColor = "red";
+                copy.style.borderWidth = "1px";
+                copy.style.borderStyle = "solid";
+                copy.style.overflow = "clip";
+                updateStylePos(copy);
+                copy.style.zIndex = 1000;
+                copy.innerHTML = el.outerHTML;
+                document.body.appendChild(copy);
                 el.remove();
 
-                setInterval(() => { el_copy.speed += 1/10; el_copy.top += el_copy.speed; el_copy.style.top = el_copy.top + "px";}, 10);
+                console.log(copy);
+
+                physicsObjects.push(copy);
             });
         }
     });
@@ -33,3 +46,22 @@ function isVisible(el) {
     }
     return style.display !== 'none' && style.visibility !== 'hidden' && el.offsetParent !== null;
 }
+
+function updateStylePos(el) {
+    el.style.top = el.pos.y + "px";
+    el.style.left = el.pos.x + "px";
+}
+
+function applyVerlet(el) {
+    let tempPos = {x: el.pos.x, y: el.pos.y}
+    el.pos.x = el.pos.x * 2 - el.prevPos.x + 0 * DELTA_MS/1000 * DELTA_MS/1000
+    el.pos.y = Math.max(Math.min(el.pos.y * 2 - el.prevPos.y + GRAVITY * DELTA_MS/1000 * DELTA_MS/1000, SCREEN_HEIGHT-el.rect.height),0)
+    el.prevPos = tempPos
+}
+
+function processPhysics() {
+    physicsObjects.forEach(applyVerlet);
+    physicsObjects.forEach(updateStylePos);
+}
+
+setInterval(processPhysics, DELTA_MS);
