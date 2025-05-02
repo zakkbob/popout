@@ -44,8 +44,8 @@ function dragSelectedEl(e) {
   selectedEl.pos.y = e.clientY;
   updateStylePos(selectedEl);
 
-  selectedEl.prevPos.x = selectedEl.pos.x - mouseVel.x / 100;
-  selectedEl.prevPos.y = selectedEl.pos.y - mouseVel.y / 100;
+  selectedEl.prevPos.x = selectedEl.pos.x - mouseVel.x / 500;
+  selectedEl.prevPos.y = selectedEl.pos.y - mouseVel.y / 500;
 
   prevMousePos = { x: e.clientX, y: e.clientY };
   lastTime = Date.now();
