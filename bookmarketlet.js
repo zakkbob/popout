@@ -6,6 +6,7 @@ const GRAVITY = 1000;
 
 const SHOW_BOUNDING_BOXES = false;
 
+var dragOffset = { x: 0, y: 0};
 var selectedEl = null;
 var lastTime = Date.now();
 var prevMousePos = { x: 0, y: 0 };
@@ -40,12 +41,12 @@ function dragSelectedEl(e) {
     x: (e.clientX - prevMousePos.x) / dt,
   };
 
-  selectedEl.pos.x = e.clientX;
-  selectedEl.pos.y = e.clientY;
+  selectedEl.pos.x = e.clientX - dragOffset.x;
+  selectedEl.pos.y = e.clientY - dragOffset.y;
   updateStylePos(selectedEl);
 
-  selectedEl.prevPos.x = selectedEl.pos.x - mouseVel.x / 500;
-  selectedEl.prevPos.y = selectedEl.pos.y - mouseVel.y / 500;
+  selectedEl.prevPos.x = selectedEl.pos.x - mouseVel.x / 1000;
+  selectedEl.prevPos.y = selectedEl.pos.y - mouseVel.y / 1000;
 
   prevMousePos = { x: e.clientX, y: e.clientY };
   lastTime = Date.now();
@@ -56,6 +57,9 @@ document.onmousemove = dragSelectedEl;
 function onMouseDown(e, el) {
   e.stopImmediatePropagation();
   el.ignore = true;
+
+  dragOffset.x = e.clientX - el.pos.x;
+  dragOffset.y = e.clientY - el.pos.y;
 
   selectedEl = el;
 }
