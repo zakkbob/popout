@@ -1,7 +1,8 @@
 var physicsObjects = [];
 
 const FPS = 60;
-const DELTA_MS = Math.floor(1000 / FPS);
+const SPEED_MULTIPLIER = 0.5;
+const DELTA_MS = Math.floor(1000 / FPS) / SPEED_MULTIPLIER;
 const GRAVITY = 1000;
 
 const SHOW_BOUNDING_BOXES = false;
