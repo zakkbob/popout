@@ -1,6 +1,6 @@
 var physicsObjects = [];
 
-const FPS = 200;
+const FPS = 60;
 const DELTA_MS = Math.floor(1000 / FPS);
 const GRAVITY = 1000;
 
@@ -73,6 +73,7 @@ function onMouseUp(e, el) {
 function onClick(e, el) {
   e.stopImmediatePropagation();
   let copy = document.createElement("div");
+  el.draggable = false;
   let rect = el.getBoundingClientRect();
 
   copy.classList.add("applied");
