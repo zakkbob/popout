@@ -56,7 +56,6 @@ document.onmousemove = dragSelectedEl;
 
 function onMouseDown(e, el) {
   e.stopImmediatePropagation();
-  el.ignore = true;
 
   dragOffset.x = e.clientX - el.pos.x;
   dragOffset.y = e.clientY - el.pos.y;
@@ -66,7 +65,6 @@ function onMouseDown(e, el) {
 
 function onMouseUp(e, el) {
   e.stopImmediatePropagation();
-  el.ignore = false;
   selectedEl = null;
 }
 
@@ -125,7 +123,7 @@ function updateStylePos(el) {
 }
 
 function applyVerlet(el) {
-  if (el.ignore) return;
+  if (el == selectedEl) return;
   let tempPos = { x: el.pos.x, y: el.pos.y };
   el.pos.x = Math.max(
     Math.min(
@@ -147,10 +145,10 @@ function applyVerlet(el) {
 }
 
 function fixCollisions(el) {
-  if (el.ignore) return;
+  if (el == selectedEl) return;
   physicsObjects.forEach((other) => {
     if (el == other) return;
-    if (other.ignore) return;
+    if (other == selectedEl) return;
 
     let yOverlap = other.pos.y - (el.pos.y + el.rect.height);
     let xOverlap = other.pos.x - (el.pos.x + el.rect.width);
