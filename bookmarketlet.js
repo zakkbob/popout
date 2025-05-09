@@ -4,7 +4,7 @@ document.body.setAttribute(
   "-webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none; -ms-user-select: none;user-select: none;",
 );
 
-const SHOW_BOUNDING_BOXES = true;
+const SHOW_BOUNDING_BOXES = false;
 
 var draggedObject = null;
 var dragOffset = { x: 0, y: 0 };
@@ -13,7 +13,7 @@ var lastMouseTime = Date.now();
 document.onmousemove = dragSelectedObject;
 
 function dragSelectedObject(e) {
-  console.log(draggedObject);
+  //console.log(draggedObject);
   if (draggedObject == null) return;
   let dt = (Date.now() - lastMouseTime) / 1000;
   let mouseVel = {
@@ -95,14 +95,15 @@ function updateObjectPos(obj) {
 
 function popOut(el) {
   let copy = document.createElement("div");
+  let bodyRect = document.body.getBoundingClientRect();
   let rect = el.getBoundingClientRect();
 
   copy.classList.add("applied");
-  copy.pos = { x: rect.left, y: rect.top };
-  copy.prevPos = { x: rect.left, y: rect.top + 3 };
+  copy.pos = { x: rect.left - bodyRect.left, y: rect.top - bodyRect.top };
+  copy.prevPos = { x: copy.pos.x, y: copy.pos.y + 3 }; // hack to add initial velocity
   copy.rect = { width: rect.width, height: rect.height };
 
-  copy.style.position = "fixed";
+  copy.style.position = "absolute";
   copy.style.width = copy.rect.width + "px";
   copy.style.height = copy.rect.height + "px";
   // copy.style.backgroundColor = getVisibleBackgroundColor(el)
@@ -136,31 +137,52 @@ function popOut(el) {
 // -- PHYSICS SIM -- //
 // uses verlet integration because it's simple
 
-const ENERGY_MULTIPLIER = 0.10;
+const ENERGY_MULTIPLIER = 0.2;
 var physicsObjects = [];
 var gravity = { x: 0, y: 1000 };
+
+function isColliding(obj, other) {
+  return (obj.pos.x + obj.rect.width >= other.pos.x &&
+      obj.pos.x <= other.pos.x + other.rect.width &&
+      obj.pos.y + obj.rect.height >= other.pos.y &&
+      obj.pos.y <= other.pos.y + other.rect.height);
+}
+
+function resolveCollision(obj, other) {
+    dx = (obj.pos.x + obj.rect.width / 2) - (other.pos.x + other.rect.width / 2);
+    dy = (obj.pos.y + obj.rect.height / 2) - (other.pos.y + other.rect.height / 2);
+    xOverlap = (obj.rect.width + other.rect.width) / 2 - Math.abs(dx);
+    yOverlap = (obj.rect.height + other.rect.height) / 2 - Math.abs(dy);
+
+    if (xOverlap < yOverlap){
+        if (dx < 0) {
+          obj.pos.x -= xOverlap/2;
+          other.pos.x += xOverlap/2;
+          
+        } else {
+          obj.pos.x += xOverlap/2;
+          other.pos.y -= xOverlap/2;
+        }
+    } else{
+        if (dy < 0) {
+          obj.pos.y -= yOverlap/2;
+          other.pos.y += yOverlap/2;
+        } else {
+          obj.pos.y += yOverlap/2;
+          other.pos.y -= yOverlap/2;
+        }
+    }
+}
 
 function fixCollisions(obj) {
   // fix object collisions
   physicsObjects.forEach((other) => {
-    if (obj == other) return;
-    if (other == draggedObject) return;
-
-    let yOverlap = obj.pos.y - other.pos.y;
-    let xOverlap = obj.pos.x - other.pos.x;
-    if (!(Math.abs(yOverlap) < obj.rect.height && Math.abs(xOverlap) < obj.rect.width)) return; // not colliding
-
-    if (Math.abs(yOverlap) < Math.abs(xOverlap)) { //moving x
-      if (xOverlap < 0) {//move left
-        obj.pos.x += (obj.rect.width-xOverlap)/2;
-        other.pos.x -= (obj.rect.width-xOverlap)/2;
-        obj.prevPos.x = obj.pos.x;
-        other.prevPos.x = other.pos.x;
-      }
-    } else {
-      console.log("moving y");
-    }
+    if (obj == other || obj == draggedObject || other == draggedObject) return;
+    if (isColliding(obj,other)) resolveCollision(obj,other);      
   });
+
+  let simulationHeight = document.body.clientHeight;
+  let simulationWidth = document.body.clientWidth;
 
   // fix border collisions
   if (obj.pos.x < 0) {
@@ -169,9 +191,9 @@ function fixCollisions(obj) {
     obj.prevPos.x = vel * ENERGY_MULTIPLIER
   }
 
-  if ((obj.pos.x + obj.rect.width) > visualViewport.width) {
+  if ((obj.pos.x + obj.rect.width) > simulationWidth) {
     let vel = obj.pos.x - obj.prevPos.x;
-    obj.pos.x = visualViewport.width - obj.rect.width;
+    obj.pos.x = simulationWidth - obj.rect.width;
     obj.prevPos.x = obj.pos.x + vel * ENERGY_MULTIPLIER
   }
 
@@ -181,9 +203,9 @@ function fixCollisions(obj) {
     obj.prevPos.y = vel * ENERGY_MULTIPLIER
   }
 
-  if ((obj.pos.y + obj.rect.height) > visualViewport.height) {
+  if ((obj.pos.y + obj.rect.height) > simulationHeight) {
     let vel = obj.pos.y - obj.prevPos.y;
-    obj.pos.y = visualViewport.height - obj.rect.height;
+    obj.pos.y = simulationHeight - obj.rect.height;
     obj.prevPos.y = obj.pos.y + vel * ENERGY_MULTIPLIER
   }
 }
@@ -220,4 +242,3 @@ addClickListeners();
 physicsLoop(Date.now());
 
 var lastFrame = Date.now();
-
