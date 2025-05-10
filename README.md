@@ -1,11 +1,12 @@
 ![badge showing time spent on this project](https://hackatime-badge.hackclub.com/U08PB6UEYLD/hacklet-submission)
 
-# hacklet-submission
-i have no ideas on what to call this, if you can think of something then please let me know
-
+# Popout
+Click on elements of a webpage to make them 'pop out'
 
 ## What is this?
 This is a bookmarklet made for [Hacklet](https://hacklet.hackclub.com/0), a [Hack Club](https://hackclub.com/) event where you made a bookmarklet and get a free domain in return
+
+I don't know how to describe this, so here are some demos
 
 It does this <br>
 ![Demo](https://github.com/zakkbob/hacklet-submission/blob/main/demos/it-does-this.gif?raw=true)
