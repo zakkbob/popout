@@ -2,6 +2,7 @@
 
 # Popout
 Click on elements of a webpage to make them 'pop out'
+If you think of a better name, feel free to let me know
 
 ## What is this?
 This is a bookmarklet made for [Hacklet](https://hacklet.hackclub.com/0), a [Hack Club](https://hackclub.com/) event where you made a bookmarklet and get a free domain in return
