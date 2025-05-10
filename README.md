@@ -7,7 +7,11 @@ i have no ideas on what to call this, if you can think of something then please 
 ## What is this
 This is a bookmarklet made for [Hacklet](https://hacklet.hackclub.com/0), a [Hack Club](https://hackclub.com/) event where you made a bookmarklet and get a free domain in return
 
-I'll add demo videos once i figure out how to
+It does this <br>
+![Demo](https://github.com/zakkbob/hacklet-submission/blob/main/demos/it-does-this.gif?raw=true)
+<br><br>
+And sometimes this <br>
+![Demo 2](https://github.com/zakkbob/hacklet-submission/blob/main/demos/sometimes-this.gif?raw=true)
 
 
 ## How do I install this
@@ -26,4 +30,4 @@ Just click the bookmark and start pressing random things on the webpage
 
 
 ## Random demos
-![Bouncing google logo demo](https://github.com/user-attachments/assets/532ecd55-d786-4543-bcfe-9a7811f09e71)
+![Bouncing google logo demo](https://github.com/zakkbob/hacklet-submission/blob/main/demos/dvd-logo.gif?raw=true)
