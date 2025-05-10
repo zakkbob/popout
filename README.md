@@ -7,11 +7,8 @@ i have no ideas on what to call this, if you can think of something then please 
 ## What is this
 This is a bookmarklet made for [Hacklet](https://hacklet.hackclub.com/0), a [Hack Club](https://hackclub.com/) event where you made a bookmarklet and get a free domain in return
 
-It does this <br>
-![](https://github.com/zakkbob/hacklet-submission/demos/it-does-this.mp4)
-<br><br>
-And sometimes this <br>
-![](https://github.com/zakkbob/hacklet-submission/demos/sometimes-does-this.mp4)
+I'll add demo videos once i figure out how to
+
 
 ## How do I install this
 Just copy the code below and add it as a bookmark (it looks scary because its minified, I promise I won't steal your roblox session cookies)
@@ -29,4 +26,4 @@ Just click the bookmark and start pressing random things on the webpage
 
 
 ## Random demos
-![The google logo bouncing around the screen, it hits the corner](https://github.com/zakkbob/hacklet-submission/demos/dvd-logo.mp4)
+![Bouncing google logo demo](https://github.com/user-attachments/assets/532ecd55-d786-4543-bcfe-9a7811f09e71)
