@@ -4,7 +4,7 @@
 Click on elements of a webpage to make them 'pop out'
 If you think of a better name, feel free to let me know
 
-Here's just some FAQs (I get alot)
+Here's just **some** FAQs (I get alot)
 
 
 ## What does your amazing bookmarklet do?
@@ -36,5 +36,5 @@ Okay, that's not really a question, but here's some incredible features it does 
 
 
 ## Can I have some random demos?
-Weird question, but okay
+Weird question, but sure
 ![Bouncing google logo demo](https://github.com/zakkbob/hacklet-submission/blob/main/demos/dvd-logo.gif?raw=true)
