@@ -6,9 +6,9 @@ Instantly transform functional websites into an unusable (but fun) chaotic mess
 Here are just **some** FAQs (I get alot)
 
 ## Why is it called 'Popout'?
-Its called 'Popout' because you click on elements of a webpage to make them 'pop out'! (Clever, right?)
+Its called 'Popout' because you click on elements of a webpage to make them 'pop out'!
 
-If you think of a better name, feel free to let me know, I might even consider it!
+If you think of a better name, feel free to let me know.
 
 ## What does your amazing bookmarklet do?
 I don't know how to describe it, so here are some demos
